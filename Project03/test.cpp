@@ -1,8 +1,23 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 using namespace std;
 
+string intToBinary(int x, int length);
+
 int main(){
-    string numStr = "01111";
-    cout << stoi(numStr,0,2) << endl;
+     int x;
+     int length;
+     cin >> x >> length;
+     cout << intToBinary(x,length) << endl;
+}
+
+string intToBinary(int x, int length){
+    string ret = "";
+    for (int i=0;i<length;i++){
+        ret += to_string(x%2);
+        x/=2;
+    }
+    reverse(ret.begin(), ret.end());
+    return ret;
 }

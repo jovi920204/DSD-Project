@@ -3,6 +3,6 @@
 using namespace std;
 
 int main(){
-    string numStr = "123";
-    cout << stoi(numStr)+5 << endl;
+    string numStr = "01111";
+    cout << stoi(numStr,0,2) << endl;
 }

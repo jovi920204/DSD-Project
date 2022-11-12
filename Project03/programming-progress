@@ -2,6 +2,7 @@
     建立二維矩陣
 2. Remove output incompatible pairs.
     快篩：找尋絕對不可能化簡的項目，並打叉叉 => input/output = 0/1 && input/output = 1/0 這種情況
+    也就是所有的input != output 就是不相容的state
 3. List transition (next state) pairs.
     找出current state他們的next state的關係
 4. Check compatibility of transition pair.

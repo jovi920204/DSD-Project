@@ -9,8 +9,8 @@
 using namespace std;
 
 struct Next {
-    string next = "";
-    string output = "";
+    string next;
+    string output;
 };
 struct Pair {
     string first;
@@ -41,10 +41,7 @@ int main(int argc, char *argv[]){
     inputFile.open(argv[1]);
     kissOutputFile.open(argv[2]);
     dotOutputFile.open(argv[3]);
-    dotInputFile.open(argv[4]);
-    // ifstream inputFile("input.kiss");
-    // ofstream kissOutputFile("output.kiss");
-    // ofstream dotOutputFile("output.dot");
+    // dotInputFile.open(argv[4]);
     
     string resetState = "";
     int inputNum;
@@ -99,51 +96,13 @@ int main(int argc, char *argv[]){
             continue;
         }
     }
-    writeInputDot(dotInputFile, inputNum, outputNum, termNum, stateNum, resetState);
+    // writeInputDot(dotInputFile, inputNum, outputNum, termNum, stateNum, resetState);
     implicationTable = vector<vector<vector<Pair> > >(stateNum, vector<vector<Pair> >(stateNum));
     incompatible = vector<vector<bool> >(stateNum, vector<bool>(stateNum,0));
     sieveIncompatible(inputNum, stateNum);
-    
-    
     listTransitionPair(stateNum);
     checkTransitionPair(stateNum, inputNum);
     mergeCompatibleState(stateNum, inputNum);
-    // for (auto val : stateTable){
-    //     cout << val.first << endl;
-    //     for (auto n : val.second){
-    //         cout << n.next << " " << n.output << endl;
-    //     }
-    // }
-    // for (auto val : stateIndex){
-    //     cout << val.first << " " << stateIndex[val.first] << endl;
-    // }
-    // for (auto val : incompatible){
-    //     for (auto val2 : val){
-    //         cout << val2 << " ";
-    //     }
-    //     cout << endl;
-    // }
-
-    // for (auto val : deletedStates){
-    //     cout << val << " ";
-    // }
-    // cout << endl;
-
-    // for (int i=0;i<pow(2,inputNum);i++){
-    //     cout << implicationTable[1][0][i].first << " " << implicationTable[1][0][i].second << endl;
-    // }
-    for (auto val : incompatible){
-        for (auto val2 : val){
-            cout << val2 << " ";
-        }
-        cout << endl;
-    }
-    // for (auto val : stateTable){
-    //     cout << val.first << endl;
-    //     for (auto n : val.second){
-    //         cout << n.next << " " << n.output << endl;
-    //     }
-    // }
 
     writeKiss(kissOutputFile, inputNum, outputNum, pow(2,inputNum)*(stateNum-deletedStates.size()), stateNum-deletedStates.size(), resetState);
     writeDot(dotOutputFile, inputNum, outputNum, pow(2,inputNum)*(stateNum-deletedStates.size()), stateNum-deletedStates.size(), resetState);
@@ -194,7 +153,6 @@ void checkTransitionPair(int stateNum, int inputNum){
             for (int k = 0; k < pow(2,inputNum); k++){
                 first = implicationTable[i][j][k].first;
                 second = implicationTable[i][j][k].second;
-                // cout << implicationTable[i][j][k].first << " " << implicationTable[i][j][k].second << endl;
                 if (first != second && incompatible[stateIndex[first]][stateIndex[second]] == 1){
                     incompatible[i][j] = 1;
                     checkTransitionPair(stateNum, inputNum);
@@ -210,7 +168,6 @@ void mergeCompatibleState(int stateNum, int inputNum){
             if (incompatible[i][j] == 0){
                 string keepState = stateName[i];
                 string deleteState = stateName[j];
-                cout << keepState << " " << deleteState << " " << j << endl;
                 for (int k = 0; k < stateNum; k++){
                     incompatible[j][k] = 1;
                     incompatible[k][j] = 1;

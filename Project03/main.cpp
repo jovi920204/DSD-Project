@@ -17,9 +17,9 @@ struct Pair {
     string second;
 };
 // currentState, binaryInput
-map<string, vector<Next>> stateTable;
-vector<vector<vector<Pair>>> implicationTable;
-vector<vector<bool>> incompatible; // 1 means incompatible.
+map<string, vector<Next> > stateTable;
+vector<vector<vector<Pair> > > implicationTable;
+vector<vector<bool> > incompatible; // 1 means incompatible.
 map<string, int> stateIndex;
 vector<string> stateName;
 vector<string> deletedStates;
@@ -33,13 +33,13 @@ void writeKiss(ofstream& kissOutputFile, int inputNum, int outputNum, int termNu
 
 
 int main(int argc, char *argv[]){
-    // ifstream inputFile;
-    // ofstream outputFile;
-    // inputFile.open(argv[1]);
-    // outputFile.open(argv[2]);
-    ifstream inputFile("input.kiss");
-    ofstream kissOutputFile("output.kiss");
-    ofstream dotOutputFile("output.dot");
+    ifstream inputFile;
+    ofstream kissOutputFile;
+    inputFile.open(argv[1]);
+    kissOutputFile.open(argv[2]);
+    // ifstream inputFile("input.kiss");
+    // ofstream kissOutputFile("output.kiss");
+    // ofstream dotOutputFile("output.dot");
     
     string resetState = "";
     int inputNum;
@@ -95,8 +95,8 @@ int main(int argc, char *argv[]){
         }
     }
 
-    implicationTable = vector<vector<vector<Pair>>>(stateNum, vector<vector<Pair>>(stateNum));
-    incompatible = vector<vector<bool>>(stateNum, vector<bool>(stateNum,0));
+    implicationTable = vector<vector<vector<Pair> > >(stateNum, vector<vector<Pair> >(stateNum));
+    incompatible = vector<vector<bool> >(stateNum, vector<bool>(stateNum,0));
     sieveIncompatible(inputNum, stateNum);
     
     
@@ -124,10 +124,10 @@ int main(int argc, char *argv[]){
     // }
     // cout << endl;
 
-    for (int i=0;i<pow(2,inputNum);i++){
-        cout << implicationTable[1][0][i].first << " " << implicationTable[1][0][i].second << endl;
-    }
-for (auto val : incompatible){
+    // for (int i=0;i<pow(2,inputNum);i++){
+    //     cout << implicationTable[1][0][i].first << " " << implicationTable[1][0][i].second << endl;
+    // }
+    for (auto val : incompatible){
         for (auto val2 : val){
             cout << val2 << " ";
         }
@@ -140,7 +140,7 @@ for (auto val : incompatible){
     //     }
     // }
 
-    writeKiss(kissOutputFile, inputNum, outputNum, 2*(stateNum-deletedStates.size()), stateNum-deletedStates.size(), resetState);
+    writeKiss(kissOutputFile, inputNum, outputNum, pow(2,inputNum)*(stateNum-deletedStates.size()), stateNum-deletedStates.size(), resetState);
 
     return 0;
 }
@@ -205,7 +205,8 @@ void mergeCompatibleState(int stateNum, int inputNum){
             if (incompatible[i][j] == 0){
                 string keepState = stateName[i];
                 string deleteState = stateName[j];
-                for (int k = 0; k < pow(2,inputNum); k++){
+                cout << keepState << " " << deleteState << " " << j << endl;
+                for (int k = 0; k < stateNum; k++){
                     incompatible[j][k] = 1;
                     incompatible[k][j] = 1;
                 }

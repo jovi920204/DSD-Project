@@ -16,10 +16,11 @@ int main(int argc, char *argv[]){
         string type = "";
         string name = "";
         string temp = "";
+        string resetState = "";
         int inputNum;
         int outputNum;
-        int patermNum;
-        int variableNum;
+        int termNum;
+        int stateNum;
         inputFile >> type;
         if (type == ".start_kiss"){
             continue;
@@ -34,16 +35,16 @@ int main(int argc, char *argv[]){
         }
         else if (type == "p"){
             inputFile >> temp;
-            patermNum = stoi(temp);
+            termNum = stoi(temp);
         }
         else if (type == "s"){
             inputFile >> temp;
-            variableNum = stoi(temp);
+            stateNum = stoi(temp);
         }
         else if (type == "r"){
-            inputFile >> name;
-            for(int i = 0; i < patermNum ; i++){
-                
+            inputFile >> resetState;
+            for(int i = 0; i < termNum ; i++){
+
             }
         }
         else if (type == ".end_kiss"){

@@ -13,5 +13,6 @@
     刪掉的那個，必須把在表格中有出線的地方，取代成保留的狀態
 6. Update implication table
     在矩陣裡，也要更新，把刪掉的state所包含的row和column都標記
-// kiss file format
+
+kiss file format：
 <input> <current-state> <next-state> <output>

@@ -3,22 +3,27 @@
 #include <algorithm>
 #include <fstream>
 #include <vector>
+#include <map>
 using namespace std;
 
-string intToBinary(int x, int length);
-
-vector<int>  v;
+struct Cmp {
+    bool operator () (string const &a, string const &b)const{
+        if (a.size() != b.size()){
+            return a.size() < b.size();
+        }
+        else {
+            return a < b;
+        }
+    }
+};
 
 int main(){
-
-}
-
-string intToBinary(int x, int length){
-    string ret = "";
-    for (int i=0;i<length;i++){
-        ret += to_string(x%2);
-        x/=2;
+    map<string, int, Cmp> mp;
+    mp["s1"] = 0;
+    mp["s2"] = 1;
+    mp["s10"] = 2;
+    for (auto val : mp){
+        cout << val.first << endl;
     }
-    reverse(ret.begin(), ret.end());
-    return ret;
 }
+

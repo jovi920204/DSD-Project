@@ -16,8 +16,18 @@ struct Pair {
     string first;
     string second;
 };
+struct Cmp {
+    bool operator () (string const &a, string const &b)const{
+        if (a.size() != b.size()){
+            return a.size() < b.size();
+        }
+        else {
+            return a < b;
+        }
+    }
+};
 // currentState, binaryInput
-map<string, vector<Next> > stateTable;
+map<string, vector<Next>, Cmp> stateTable;
 vector<vector<vector<Pair> > > implicationTable;
 vector<vector<bool> > incompatible; // 1 means incompatible.
 map<string, int> stateIndex;
@@ -116,7 +126,7 @@ void sieveIncompatible(int inputNum, int stateNum){
     for (int i=0;i<stateNum;i++){
         for (int j=0;j<stateNum;j++){
             int count = 0;
-            for (int k=0;k<inputNum+1;k++){
+            for (int k=0;k<pow(2,inputNum);k++){
                 if (stateTable[stateName[i]][k].output != stateTable[stateName[j]][k].output){
                     incompatible[i][j] = 1;
                     break;
@@ -172,7 +182,7 @@ void mergeCompatibleState(int stateNum, int inputNum){
                     incompatible[j][k] = 1;
                     incompatible[k][j] = 1;
                 }
-                for (auto& val : stateTable){
+                for (auto& val : stateTable){               
                     for (auto& n : val.second){
                         if (n.next == deleteState){
                             n.next = keepState;
@@ -181,7 +191,7 @@ void mergeCompatibleState(int stateNum, int inputNum){
                 }
                 listTransitionPair(stateNum);
                 auto it = find(deletedStates.begin(), deletedStates.end(), deleteState);
-                if (it == deletedStates.end()) deletedStates.push_back(deleteState);
+                if (it == deletedStates.end()) deletedStates.push_back(deleteState); 
             }
         }
     }
